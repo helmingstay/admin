@@ -6,11 +6,7 @@ options(error=recover) ## requires utils package
 options(repos=c(CRAN="https://cloud.r-project.org/"), download.file.method = "libcurl")
 .libPaths(.libPaths())
 
-## 2023-01, https://www.census.gov/developer/
-.census.key=readLines('~/.ssh/census.api.key', n=1)
-
 #Sys.setenv(TZ="GMT")
-Sys.setenv(TZ="America/Phoenix")  #doesn't work with xts::apply.daily(), fixed?
 
 if (T) {
 old <- getOption("defaultPackages");
@@ -32,8 +28,8 @@ options(defaultPackages =
     ## misc options
     options(error=recover) ## requires utils package
     options(menu.graphics=F) ## don't use graphical help chooser 
-    options(width=50)   ## printing width
-    options(max.print=500)   ## max # records to print
+    options(width=70)   ## printing width
+    options(max.print=2000)   ## max # records to print
     options(pdfviewer='/usr/bin/evince')
     Rd2txt_options(width=60, minIndent=3)
 }
@@ -115,15 +111,7 @@ colname.replace = function(pattern, replacement, mydf) {
     mydf
 }
 
-## this is for llply to set labels equal to element names
-ccc = function(..., recursive=FALSE) {
-    x=c(..., recursive=recursive); names(x) = x; return(x)
-}
 
-labpal = function(cols = c('lightgrey','blue')) {
-    mypal <- colorRampPalette(cols, space = "Lab")
-    return(mypal)
-}
 
 ### clear all graphics windows
 clearshow = function(n=length(dev.list())) {for (i in 1:n) {dev.off()}}
@@ -142,22 +130,6 @@ slideshow = function(mylist, fun=NA, ...) { # plot each element of a list using 
     }
 }
 
-## set a lattice theme, call after graphics device is open
-mk.mytheme = function() {
-    trellis.par.set(theme = col.whitebg())
-    mytheme=trellis.par.get()
-    mytheme[[27]]$axis.top=1
-    mytheme[[27]]$bottom.padding=1
-    mytheme[[27]]$top.padding=3
-    mytheme[[27]]$panel=-10
-    mytheme[[27]]$main=1
-    mytheme[[28]]$axis.left=1
-    mytheme[[28]]$panel=1
-    mytheme[[28]]$left.padding=2
-    mytheme[[28]]$right.padding=1
-    trellis.par.set(theme = mytheme)
-}
-
 load.dev <- function() {
     library(devtools)
     library(testthat)
@@ -167,31 +139,4 @@ load.dev <- function() {
 roxy <- function(path='.') {
     load.dev()
     roxygenize(path)
-}
-
-## old
-if (FALSE){
-
-    #lmplot = function(x) {layout(matrix(1:4, nrow=2)); plot(x)}
-
-    levelzoo = function(myz, cuts=100, colfun=rainbow, aspect='fill',...){
-            plot(levelplot(coredata(myz), col.regions=colfun(cuts+1), cuts=cuts, aspect=aspect, ...))
-    }
-
-    my.date = function() format(Sys.time(), '%Y_%m_%d')
-
-
-    parbg = function(mycolor='#333333') {
-        ## pass to par.settings in trellis to get dark background
-        return(list(background=list(col=mycolor)))
-    }
-
-
-    my.packet.panel = function(layout, row, column, ...) {
-        ### plot lattice panels from top to bottom first
-        layout <- layout[c(2, 1, 3)]
-        packet.panel.default(layout = layout,
-        row = column,
-        column = row, ...)
-    }
 }

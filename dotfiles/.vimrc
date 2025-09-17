@@ -94,6 +94,7 @@ set nocp
 "Ignore case in searches
 set ignorecase
 
+"https://github.com/altercation/vim-colors-solarized
 syntax enable
 set background=dark
 "use w/tmux
@@ -169,7 +170,7 @@ imap =equ \begin{equation}<CR><CR>\end{equation}<Esc>$ka
 
 
 "disable mouse scroll
-set mouse=i
+set mouse=
 
 imap <ScrollWheelUp> <nop>
 imap <S-ScrollWheelUp> <nop>
