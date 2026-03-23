@@ -1,0 +1,6 @@
+## Ref: https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#defaults-channels
+channels:
+  - bioconda
+  - nodefaults
+
+auto_activate: false

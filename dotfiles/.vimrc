@@ -169,7 +169,7 @@ imap =equ \begin{equation}<CR><CR>\end{equation}<Esc>$ka
 
 
 "disable mouse scroll
-set mouse=i
+set mouse=
 
 imap <ScrollWheelUp> <nop>
 imap <S-ScrollWheelUp> <nop>

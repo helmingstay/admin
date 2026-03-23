@@ -16,6 +16,9 @@ compinit
 #########################################
 # xian config
 ########################################
+
+## 
+export APT_PAGER="less -R"
 ## one ssh-agent shared across shells 
 ## https://unix.stackexchange.com/questions/90853/how-can-i-run-ssh-add-automatically-without-a-password-prompt
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
@@ -81,3 +84,16 @@ PS1="%{$fg[blue]%}%l %T %n@%m:%{$reset_color%}%{$fg[green]%}%~$%{$reset_color%}"
 #########################################
 # end xian config
 #########################################
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/home/xian/miniforge3/bin/mamba';
+export MAMBA_ROOT_PREFIX='/home/xian/miniforge3';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
