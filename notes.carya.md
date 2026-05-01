@@ -212,3 +212,67 @@ iface enp1s0 inet manual
     - `sudo ifdown br0`
     - remove br0 from /etc/network/interfaces, set enp1s0 to dhcp/auto
     - set carya dhcp in openwrt
+
+## 2025-04
+* backup postgres db using -F
+    - time pg_dump -Fd covid -j 6 -f bak.covid.2025-04
+* upgrade postgres cluster: 13 to 15
+    - db covid upgrade borked, didn't install postgis first
+* work on lidar / pointcloud tools
+
+## 2025-04-27
+* update ssh.config: pixel7 ip address
+* Backup pixel7 pics
+    - remove 2023 pics/vid from phone (in pixel5 folder)
+    - `time  rsync -auv --progress  'pixel7:/sdcard/DCIM/Camera/*.jpg' ~/personal/pixel7/camera-2025-04-27`
+    * TODO: rdfind: to remove duplicate pics
+
+## 2025-06-10
+* Shutdown, reboot, move to OH
+
+## 2025-07-28
+* postgres: restore carya
+    - `time pg_restore -v -C -j 6 -d covid ~/archive.raid/backup/uga/bak.covid.2025-04`
+
+## 2026-03-22
+* headless x
+    - `sudo apt install xvfb`
+
+## 2026-04-16
+* elixir
+    - mamba install elixir
+    - https://github.com/elixir-editors/vim-elixir
+* edit /etc/fstab (~/work): 
+    - remove option `user` from `LABEL=carya.sandisk`, implies noexec
+
+## 2026-04-23 onwards
+* install flatpak, neovim
+* work on neovim
+    - see notes.cercis.md
+    - config: .var/app/io.neovim.nvim/config/nvim/init.lua
+    - challenge finding 0.12 tutorials
+    - ref: www.youtube.com/watch?v=lljs_7xB7Ps&t=161s
+
+* 
+
+## 2026-05-01
+* .zshrc prompt (match robinia, change colors)
+* install rustup (not in debian 12, use default install)
+    - ref https://rust-lang.org/tools/install/
+    - PATH: $HOME/.cargo/bin
+* install bob, neovim
+    - glibc_2.39 not found, use custom target via git/cargo
+    - ref: https://github.com/MordechaiHadad/bob/issues/344#issuecomment-3508374174
+    - `sudo apt install musl-tools`
+    - clone bob; in ~/local/src/bob: `cargo build --target aarch-unknown-linux-musl --profile optimized`
+    - install neovim: `./target/x86_64-unknown-linux-musl/optimized/bob install stable`
+    - `ln -s ~/.local/share/bob/v0.12.2/bin/nvim  ./nv`
+* config neovim
+    - see `.config/nvim` (copied from .var/app/io.neovim.nvim/config/nvim/init.lua)
+* git cleanup: `admin`
+
+*******************
+# TODO #
+*******************
+* rdfind in ~/personal/pixel7
+

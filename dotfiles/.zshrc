@@ -1,7 +1,7 @@
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=40000
+SAVEHIST=40000
 bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
@@ -16,6 +16,9 @@ compinit
 #########################################
 # xian config
 ########################################
+#
+#
+export PGDATABASE=covid
 ## one ssh-agent shared across shells 
 ## https://unix.stackexchange.com/questions/90853/how-can-i-run-ssh-add-automatically-without-a-password-prompt
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
@@ -24,9 +27,14 @@ if [ ! -S ~/.ssh/ssh_auth_sock ]; then
 fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 
-export PATH=$PATH:~/bin:~/local/bin:~/.local/bin
+## add rustup
+export PATH=$PATH:~/bin:~/admin/bin:$HOME/.cargo/bin
+## bob/nvim
+export PATH=$PATH:$HOME/.local/share/bob/nvim-bin 
+## flatpak bins
+#export PATH=$PATH:~/.local/share/flatpak/exports/bin
 # shell/cli related
-alias xb='brightnessctl set'
+alias ipy='ipython --TerminalInteractiveShell.editing_mode=vi'
 alias disp='export DISPLAY=:0.0'
 alias ls='ls -hF --color=tty'                 # classify files in colour
 alias lls='ls -alh'                 
@@ -48,20 +56,13 @@ export PAGER=less
 export LESS="-iMSx4 -FX"
 export BUILDDIR=~/build
 ## psql
-export PGDATABASE=covid
-#alias my.pg.carya='ssh -L 7432:localhost:5432 -N -f carya'
-#export PGHOST=localhost
-#export PGPORT=7432
+# 
 
 ## programs
-## -U crashes network on disconnect
-## 2023-12: openconnect vpn doesn't play nice with home assistant bridge
-alias my.vpn="sudo openconnect --no-dtls --authgroup='01 Default' -u cg79628 remote.uga.edu"
 ## cleanup routes after vpn connect: more effort than its worth?
-alias my.route.fix="sudo route add default gw 192.168.1.1 dev br0"
+##
+# alias my.route.fix="sudo route add default gw 192.168.1.1 dev br0"
 
-#alias my.vpn="sudo openconnect --no-dtls -U xian --authgroup='01 Default' -u cg79628 remote.uga.edu"
-alias lfeh='feh -F --draw-filename --draw-exif --fontpath /usr/share/fonts/truetype/liberation/ -e "LiberationSans-Regular/16"'
 alias my.iftop='sudo iftop -c ~xian/.iftoprc -n -i wlp61s0'
 ## prompt
 autoload -U promptinit
@@ -69,9 +70,28 @@ promptinit
 
 autoload -U colors && colors
 ##
-#PS1='\[\033[01;34m\]%l %T %n@%m:\[\033[00m\]%~\[\033[01;32m\]$[\033[00m\]' 
-PS1="%{$fg[blue]%}%l %T %n@%m:%{$reset_color%}%{$fg[green]%}%~$%{$reset_color%}" # history.24Htime-user@host:workingdir$
+#PS1="%{$fg[blue]%}%l %T %n@%m:%{$reset_color%}%{$fg[green]%}%~$%{$reset_color%}" # history.24Htime-user@host:workingdir$
+PROMPT='%F{magenta}%D{%m.%d}%f %F{cyan}%T% %m:%f% %F{blue}%~$' 
+
 
 #########################################
 # end xian config
 #########################################
+
+## mamba install: 
+# https://github.com/conda-forge/miniforge
+# curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+# sh ./Miniforge[...].sh
+####
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/home/xian/miniforge3/bin/mamba';
+export MAMBA_ROOT_PREFIX='/home/xian/miniforge3';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
